@@ -1,0 +1,232 @@
+//div[class^="col-"] {border: solid 1px #fff}
+
+@font-face {
+    font-family: 'Exo';
+    src: url('../fonts/Exo20-Thin.eot');
+    src: url('../fonts/Exo20-Thin.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/Exo20-Thin.woff2') format('woff2'),
+    url('../fonts/Exo20-Thin.woff') format('woff'),
+    url('../fonts/Exo20-Thin.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'TrebuchetMS';
+    src: url('../fonts/TrebuchetMS.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/TrebuchetMS.woff') format('woff'),
+    url('../fonts/TrebuchetMS.ttf')  format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+$cardBg: #fff;
+$blue: #1698d9;
+$hoverBlue: #2ea8e6;
+$selected: #d91667;
+$selectedHover: #e62e7a;
+$disabled: #b3b3b3;
+
+body, html {height: 100%;}
+body {
+    font-family: 'TrebuchetMS',Tahoma,sans-serif;
+    background: url("../img/bg.png"); //fallback
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 5e-05) 50%, rgba(0, 0, 0, 0.5) 100%), url("../img/bg.png");
+}
+
+.vertical-center {
+    height: 100%;
+    //min-height: 100%; //ie11 "flex+min-height" bug
+    //min-height: 100vh;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -moz-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    width: 100%;
+    //-webkit-box-pack: center;
+    //-moz-box-pack: center;
+    //-ms-flex-pack: center;
+    //-webkit-justify-content: center;
+    //justify-content: center;
+}
+
+.container {
+    z-index: 1;
+}
+.cont {
+    border: solid 1px red;
+    display: table-cell;
+    position: absolute;
+    top: 0; bottom: 0; left:0; right: 0;
+    vertical-align: middle;
+}
+h1 {
+    color: #fff;
+    text-align: center;
+    font-family: "Exo",Tahoma,sans-serif;
+    font-size: 36px;
+    margin: 40px 0 26px 0;
+    text-shadow: 0 1px #000
+}
+
+.card {
+    $card_border_width: 4px;
+    $card_border_rad: 12px;
+    $card_border_rad_inner: $card_border_rad - 2;
+    $card_width: 320px;
+    $card_height: 480px;
+
+    display: inline-block;
+    border: none;
+    text-align: left;
+    background: transparent;
+
+    &__outer {
+        width: $card_width;
+        height: $card_height;
+        border-radius: $card_border_rad;
+        background: linear-gradient(135deg, transparent 30px, $blue 30px);
+        padding: $card_border_width;
+        position: relative;
+        margin-bottom: 10px;
+        &:hover {background: linear-gradient(135deg, transparent 30px, $hoverBlue 30px);}
+        &:hover .card__weight {background-color: $hoverBlue;}
+    }
+    &__inner {
+        height: 100%;
+        border-radius: $card_border_rad_inner;
+        background: linear-gradient(135deg, transparent 29px, $cardBg 29px);
+        cursor: pointer;
+    }
+    &__inner-wrap {
+        position: absolute;
+        left: 50px;
+        top: 20px;
+    }
+    &__img {
+        position: absolute;
+        left: 4px;
+        bottom: 4px;
+        border-bottom-left-radius: $card_border_rad;
+    }
+    &__title {
+        color: #666666;
+        font-size: 16px;
+        margin: 0;
+    }
+    h2 {
+        font-size: 48px;
+        font-weight: bold;
+        margin: 10px 0 8px;
+        line-height: 0.86em;
+        letter-spacing: 1px; //optional
+        span {
+            display: block;
+            font-size: 24px;
+        }
+    }
+    ul {
+        margin: 0;
+        padding: 0;
+    }
+    li {
+        font-size: 14px;
+        color: #666666;
+        list-style-type: none;
+        line-height: 1.1em;
+    }
+    &__weight {
+        position: absolute;
+        right: 15px;
+        bottom: 15px;
+        width: 80px;
+        height: 80px;
+        text-align: center;
+        background-color: $blue;
+        border-radius: 50%;
+        &-wrap {
+            margin-top: 15px;
+            line-height: 0.75em;
+            color: #fff;
+            font-size: 42px;
+            div {font-size: 21px;}
+        }
+    }
+    &__action,&__action-selected,&__action-disabled {
+        font-size: 13px;
+        text-align: center;
+        color: #fff;
+        a {
+            color: #1698d9;
+            text-decoration: none;
+            border-bottom: dashed 1px;
+            &:hover,&:focus,&:active {
+                border-bottom: none;
+            }
+        }
+    }
+    &__action-selected {display: none;}
+    &__action-disabled {display: none; color: #ffff66}
+
+    //-------------------
+    // выбранная карточка
+    //-------------------
+    &.selected {
+        .card__outer {background: linear-gradient(135deg, transparent 30px, $selected 30px);
+            &:hover {background: linear-gradient(135deg, transparent 30px, $selectedHover 30px);}
+            &:hover .card__weight {background-color: $selectedHover;}
+        }
+        .card__weight {background-color: $selected;}
+    }
+    //-------------------
+    // отключенная
+    //-------------------
+    &.disabled {
+        .card__inner {cursor: default;}
+        .card__outer {background: linear-gradient(135deg, transparent 30px, $disabled 30px);
+            &:hover {background: linear-gradient(135deg, transparent 30px, $disabled 30px);}
+            &:hover .card__weight {background-color: $disabled;}
+        }
+        .card__weight {background-color: $disabled;}
+        .card__img,.card__inner-wrap {opacity: 0.6}
+        .card__action {display: none;}
+        .card__action-disabled {display: block;}
+    }
+}
+
+// Экстрамалые девайсы («портретные телефоны», < 576px)
+@media (max-width: 575.99px) {
+    h1 {margin-bottom: 50px;}
+    .card {
+        margin-bottom: 60px;
+        &__outer {
+            width: 290px;
+        }
+    }
+}
+
+// Малые девайсы («ландшафтные», >= 575px)
+@media (min-width: 576px) and (max-width: 767.99px) {
+}
+
+// Средние девайсы («таблетки», >= 768px)
+@media (min-width: 768px) and (max-width: 991.99px) {
+}
+
+// Большие девайсы (большие десктопы, >= 992px)
+@media (min-width: 992px) and (max-width: 1199.99px) {
+}
+@media (max-width: 1199.99px) {
+    .vertical-center {height: auto;}
+    .card {margin-bottom: 60px;}
+}
+// Большие девайсы (большие десктопы, >= 1200px)
+@media (min-width: 1200px) {
+
+}
+
